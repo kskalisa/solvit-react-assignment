@@ -1,11 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Dashboard from './pages/Dashboard'
 import './App.css'
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(() => (typeof window !== 'undefined' ? window.innerWidth > 768 : true))
+
+  // adapt sidebar state on resize so desktop shows it and mobile hides it
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth <= 768) setSidebarOpen(false)
+      else setSidebarOpen(true)
+    }
+    window.addEventListener('resize', onResize)
+    // run once to sync
+    onResize()
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   return (
     <div style={{

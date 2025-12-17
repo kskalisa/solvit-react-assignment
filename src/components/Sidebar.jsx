@@ -1,9 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Button from './Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTachometerAlt, faUsers, faBox, faClipboardList, faTags, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const [activeMenu, setActiveMenu] = useState('Dashboard')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // lock body scroll when sidebar overlay is open on mobile
+  useEffect(() => {
+    if (isMobile && isOpen) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => { document.body.style.overflow = prev }
+    }
+    return
+  }, [isMobile, isOpen])
 
   const menuItems = [
     { name: 'Dashboard', icon: faTachometerAlt },
@@ -14,15 +33,21 @@ export default function Sidebar({ isOpen, setIsOpen }) {
   ]
 
   return (
-    <div style={{
-      width: isOpen ? '224px' : '80px',
-      backgroundColor: '#ffffff',
-      borderRight: '1px solid #e5e7eb',
-      transition: 'width 0.3s ease-in-out',
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%'
-    }}>
+    <>
+      <div style={{
+        width: isMobile ? '260px' : (isOpen ? '224px' : '80px'),
+        backgroundColor: '#ffffff',
+        borderRight: isMobile ? 'none' : '1px solid #e5e7eb',
+        transition: 'transform 0.25s ease-in-out, width 0.3s',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        position: isMobile ? 'fixed' : 'relative',
+        left: isMobile ? (isOpen ? 0 : '-320px') : '0',
+        top: 0,
+        zIndex: isMobile ? 60 : 1,
+        boxShadow: isMobile && isOpen ? '0 10px 30px rgba(2,6,23,0.2)' : 'none'
+      }}>
       {/* Logo Section */}
       <div style={{
         padding: '24px',
@@ -64,9 +89,13 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         gap: '4px'
       }}>
         {menuItems.map((item) => (
-          <button
+          <Button
             key={item.name}
-            onClick={() => setActiveMenu(item.name)}
+            onClick={() => {
+              setActiveMenu(item.name)
+              if (isMobile) setIsOpen(false)
+            }}
+            variant="ghost"
             style={{
               width: '100%',
               display: 'flex',
@@ -75,9 +104,8 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               padding: '10px 12px',
               borderRadius: '8px',
               transition: 'all 0.2s',
-              border: 'none',
-              backgroundColor: activeMenu === item.name ? '#eff6ff' : 'transparent',
-              color: activeMenu === item.name ? '#2563eb' : '#4b5563',
+              backgroundColor: activeMenu === item.name ? 'var(--primary-50)' : 'transparent',
+              color: activeMenu === item.name ? 'var(--primary-600)' : '#4b5563',
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: activeMenu === item.name ? '500' : '400'
@@ -91,7 +119,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                 {item.badge && (
                   <span style={{
                     fontSize: '12px',
-                    backgroundColor: '#e5e7eb',
+                    backgroundColor: 'var(--muted-100)',
                     color: '#374151',
                     padding: '4px 8px',
                     borderRadius: '6px',
@@ -102,7 +130,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                 )}
               </>
             )}
-          </button>
+          </Button>
         ))}
       </nav>
 
@@ -111,26 +139,15 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         padding: '12px',
         borderTop: '1px solid #e5e7eb'
       }}>
-        <button style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          padding: '10px 12px',
-          color: '#4b5563',
-          backgroundColor: 'transparent',
-          border: 'none',
-          borderRadius: '8px',
-          transition: 'background-color 0.2s',
-          cursor: 'pointer',
-          fontSize: '14px'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+        <Button variant="ghost" style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', color: '#4b5563', borderRadius: '8px', cursor: 'pointer', fontSize: '14px' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
           <FontAwesomeIcon icon={faDoorOpen} style={{ fontSize: '18px', flexShrink: 0, width: '18px', height: '18px' }} />
           {isOpen && <span style={{ fontWeight: '500', fontSize: '14px' }}>Logout</span>}
-        </button>
+        </Button>
       </div>
-    </div>
+      </div>
+      {isMobile && isOpen && (
+        <div onClick={() => setIsOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(2,6,23,0.35)', zIndex: 50 }} />
+      )}
+    </>
   )
 }

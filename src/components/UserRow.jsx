@@ -1,3 +1,5 @@
+import Button from './Button'
+
 export default function UserRow({ name, email, role, status, lastLogin }) {
   const roleColors = {
     'Admin': { bg: '#dbeafe', text: '#1e40af' },
@@ -95,28 +97,8 @@ export default function UserRow({ name, email, role, status, lastLogin }) {
           display: 'flex',
           gap: '8px'
         }}>
-          <button style={{
-            color: '#2563eb',
-            backgroundColor: 'transparent',
-            border: 'none',
-            fontWeight: '500',
-            fontSize: '14px',
-            cursor: 'pointer',
-            transition: 'color 0.2s'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#1d4ed8'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#2563eb'}>Edit</button>
-          <button style={{
-            color: '#dc2626',
-            backgroundColor: 'transparent',
-            border: 'none',
-            fontWeight: '500',
-            fontSize: '14px',
-            cursor: 'pointer',
-            transition: 'color 0.2s'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#b91c1c'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#dc2626'}>Delete</button>
+          <Button variant="ghost" style={{ color: 'var(--primary-500)', padding: '0', fontSize: '14px', fontWeight: 500 }} onMouseEnter={(e) => e.currentTarget.style.color = '#1d4ed8'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--primary-500)'}>Edit</Button>
+          <Button variant="ghost" style={{ color: '#dc2626', padding: '0', fontSize: '14px', fontWeight: 500 }} onMouseEnter={(e) => e.currentTarget.style.color = '#b91c1c'} onMouseLeave={(e) => e.currentTarget.style.color = '#dc2626'}>Delete</Button>
         </div>
       </td>
     </tr>

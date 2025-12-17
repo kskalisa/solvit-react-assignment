@@ -19,6 +19,53 @@ body {
   color: #111827;
 }
 
+:root {
+  /* Primary color palette (based on the provided reference) */
+  --primary-50: #eaf4ff;
+  --primary-100: #dbeeff;
+  --primary-200: #b6dbff;
+  --primary-300: #8fb9ff;
+  --primary-400: #5f9bff;
+  --primary-500: #2563eb; /* primary */
+  --primary-600: #1f4fd0;
+  --primary-700: #173a9a;
+  --primary-800: #102a6d;
+  --primary-900: #0b1b3f;
+
+  --muted-100: #f3f4f6;
+  --muted-200: #e5e7eb;
+  --muted-400: #9ca3af;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+}
+
+/* Small utility classes used by components */
+.btn-reset { background: none; border: none; padding: 0; margin: 0; }
+
+/* Responsive container padding */
+@media (max-width: 768px) {
+  body { padding: 12px; }
+}
+
+/* Responsive header and layout tweaks */
+.app-header {
+  padding: 16px 32px;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 10px 12px !important;
+  }
+  .app-header h1 {
+    font-size: 18px !important;
+  }
+}
+
+/* Ensure main container allows scrolling under fixed sidebar on mobile */
+main {
+  min-height: 0;
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;

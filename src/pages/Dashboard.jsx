@@ -5,6 +5,8 @@ import StatCard from '../components/StatCard'
 import SystemOverview from '../components/SystemOverview'
 import ProductCard from '../components/ProductCard'
 import UserRow from '../components/UserRow'
+import Button from '../components/Button'
+import DashboardCard from '../components/DashboardCard'
 
 export default function Dashboard() {
   const stats = [
@@ -60,253 +62,44 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Recent Products & Activity Section */}
+      {/* Recent Added Products - full width horizontal row */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: '2fr 1fr',
-        gap: '32px',
         marginBottom: '32px'
       }}>
-        {/* Recent Added Products */}
-        <div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '24px'
-          }}>
-            <h2 style={{
-              fontSize: '20px',
-              fontWeight: 'bold',
-              color: '#111827'
-            }}>Recent Added Products</h2>
-          </div>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '16px'
-          }}>
-            {products.slice(0, 6).map((product, idx) => (
-              <ProductCard key={idx} {...product} />
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div>
-          <h2 style={{
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: '#111827',
-            marginBottom: '24px'
-          }}>Quick Actions</h2>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px'
-          }}>
-            <button style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              padding: '16px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              border: '1px solid #e5e7eb',
-              cursor: 'pointer',
-              transition: 'box-shadow 0.2s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
-              <FontAwesomeIcon icon={faUser} style={{ fontSize: '24px' }} />
-              <div style={{ textAlign: 'left' }}>
-                <p style={{ fontWeight: '600', color: '#111827', fontSize: '14px' }}>View Users</p>
-                <p style={{ fontSize: '12px', color: '#6b7280' }}>View all registered users</p>
-              </div>
-              <button style={{
-                marginLeft: 'auto',
-                padding: '4px 12px',
-                backgroundColor: '#2563eb',
-                color: 'white',
-                fontSize: '12px',
-                fontWeight: '500',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}>
-                Go
-              </button>
-            </button>
-
-            <button style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              padding: '16px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              border: '1px solid #e5e7eb',
-              cursor: 'pointer',
-              transition: 'box-shadow 0.2s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
-              <FontAwesomeIcon icon={faBox} style={{ fontSize: '24px' }} />
-              <div style={{ textAlign: 'left' }}>
-                <p style={{ fontWeight: '600', color: '#111827', fontSize: '14px' }}>View Products</p>
-                <p style={{ fontSize: '12px', color: '#6b7280' }}>View all registered products</p>
-              </div>
-              <button style={{
-                marginLeft: 'auto',
-                padding: '4px 12px',
-                backgroundColor: '#2563eb',
-                color: 'white',
-                fontSize: '12px',
-                fontWeight: '500',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}>
-                Go
-              </button>
-            </button>
-
-            <button style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              padding: '16px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              border: '1px solid #e5e7eb',
-              cursor: 'pointer',
-              transition: 'box-shadow 0.2s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
-              <FontAwesomeIcon icon={faClipboardList} style={{ fontSize: '24px' }} />
-              <div style={{ textAlign: 'left' }}>
-                <p style={{ fontWeight: '600', color: '#111827', fontSize: '14px' }}>View Assignments</p>
-                <p style={{ fontSize: '12px', color: '#6b7280' }}>View all product assignments</p>
-              </div>
-              <button style={{
-                marginLeft: 'auto',
-                padding: '4px 12px',
-                backgroundColor: '#9333ea',
-                color: 'white',
-                fontSize: '12px',
-                fontWeight: '500',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#7e22ce'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#9333ea'}>
-                Go
-              </button>
-            </button>
-          </div>
+        <h2 style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: '#111827',
+          marginBottom: '16px'
+        }}>Recent Added Products</h2>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: '16px'
+        }}>
+          {products.map((product, idx) => (
+            <div key={idx}>
+              <ProductCard {...product} />
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Users Table */}
-      <div style={{
-        backgroundColor: '#ffffff',
-        borderRadius: '8px',
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
-        border: '1px solid #f3f4f6',
-        marginBottom: '32px'
-      }}>
-        <div style={{
-          padding: '24px',
-          borderBottom: '1px solid #e5e7eb',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          <h2 style={{
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: '#111827'
-          }}>Users</h2>
-          <button style={{
-            padding: '8px 16px',
-            backgroundColor: '#2563eb',
-            color: 'white',
-            fontSize: '14px',
-            fontWeight: '500',
-            borderRadius: '8px',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}>
-            Add User
-          </button>
+      <DashboardCard title="Users" style={{ marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <div />
+          <Button onClick={() => {}} variant="primary">Add User</Button>
         </div>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%' }}>
-            <thead style={{
-              backgroundColor: '#f9fafb',
-              borderBottom: '1px solid #e5e7eb'
-            }}>
+            <thead style={{ backgroundColor: 'var(--muted-100)', borderBottom: '1px solid var(--muted-200)' }}>
               <tr>
-                <th style={{
-                  padding: '12px 24px',
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#4b5563',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>User</th>
-                <th style={{
-                  padding: '12px 24px',
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#4b5563',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>Role</th>
-                <th style={{
-                  padding: '12px 24px',
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#4b5563',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>Status</th>
-                <th style={{
-                  padding: '12px 24px',
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#4b5563',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>Last Login</th>
-                <th style={{
-                  padding: '12px 24px',
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#4b5563',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>Actions</th>
+                <th style={{ padding: '12px 24px', textAlign: 'left', fontSize: '12px', fontWeight: '600', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em' }}>User</th>
+                <th style={{ padding: '12px 24px', textAlign: 'left', fontSize: '12px', fontWeight: '600', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Role</th>
+                <th style={{ padding: '12px 24px', textAlign: 'left', fontSize: '12px', fontWeight: '600', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Status</th>
+                <th style={{ padding: '12px 24px', textAlign: 'left', fontSize: '12px', fontWeight: '600', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Last Login</th>
+                <th style={{ padding: '12px 24px', textAlign: 'left', fontSize: '12px', fontWeight: '600', color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -316,84 +109,72 @@ export default function Dashboard() {
             </tbody>
           </table>
         </div>
-      </div>
+      </DashboardCard>
 
-      {/* Recent Activity */}
+      {/* Recent Activity & Quick Actions (below Users) */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '2fr 1fr',
-        gap: '32px'
+        gridTemplateColumns: '1fr 1fr',
+        gap: '24px',
+        marginTop: '0px'
       }}>
-        <div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '24px'
-          }}>
-            <h2 style={{
-              fontSize: '20px',
-              fontWeight: 'bold',
-              color: '#111827'
-            }}>Recent Activity</h2>
-            <button style={{
-              color: '#2563eb',
-              backgroundColor: 'transparent',
-              border: 'none',
-              fontWeight: '500',
-              fontSize: '14px',
-              cursor: 'pointer',
-              transition: 'color 0.2s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#1d4ed8'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#2563eb'}>View all</button>
-          </div>
-          <div style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
-            border: '1px solid #f3f4f6',
-            overflow: 'hidden'
-          }}>
+        {/* Recent Activity */}
+        <DashboardCard title="Recent Activity">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {activities.map((activity, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: '24px',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '16px',
-                  borderBottom: idx !== activities.length - 1 ? '1px solid #e5e7eb' : 'none'
-                }}
-              >
-                <div style={{ fontSize: '24px', flexShrink: 0, color: '#2563eb' }}>
+              <div key={idx} style={{ padding: '12px', borderRadius: '6px', border: '1px solid var(--muted-200)', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <div style={{ fontSize: '18px', color: 'var(--primary-500)', flexShrink: 0 }}>
                   <FontAwesomeIcon icon={activity.iconName} />
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{
-                    fontWeight: '600',
-                    color: '#111827',
-                    fontSize: '14px'
-                  }}>{activity.title}</p>
-                  <p style={{
-                    fontSize: '14px',
-                    color: '#4b5563',
-                    marginTop: '4px'
-                  }}>{activity.description}</p>
-                  <p style={{
-                    fontSize: '12px',
-                    color: '#9ca3af',
-                    marginTop: '8px'
-                  }}>{activity.date}</p>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '13px' }}>{activity.title}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--muted-400)', marginTop: '4px' }}>{activity.description}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--muted-400)', marginTop: '6px' }}>{activity.date}</div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </DashboardCard>
 
-        {/* Space for additional content if needed */}
-        <div></div>
+        {/* Quick Actions */}
+        <DashboardCard title="Quick Actions">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <FontAwesomeIcon icon={faUser} style={{ fontSize: '18px', color: 'var(--primary-600)' }} />
+                <div>
+                  <div style={{ fontWeight: 600, color: '#0f172a' }}>View Users</div>
+                  <div style={{ fontSize: '12px', color: 'var(--muted-400)' }}>View all users</div>
+                </div>
+              </div>
+              <Button variant="primary" style={{ padding: '6px 10px', fontSize: '12px' }}>Go</Button>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <FontAwesomeIcon icon={faBox} style={{ fontSize: '18px', color: 'var(--primary-600)' }} />
+                <div>
+                  <div style={{ fontWeight: 600, color: '#0f172a' }}>View Products</div>
+                  <div style={{ fontSize: '12px', color: 'var(--muted-400)' }}>View all products</div>
+                </div>
+              </div>
+              <Button variant="primary" style={{ padding: '6px 10px', fontSize: '12px' }}>Go</Button>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <FontAwesomeIcon icon={faClipboardList} style={{ fontSize: '18px', color: 'var(--primary-600)' }} />
+                <div>
+                  <div style={{ fontWeight: 600, color: '#0f172a' }}>View Assignments</div>
+                  <div style={{ fontSize: '12px', color: 'var(--muted-400)' }}>View assignments</div>
+                </div>
+              </div>
+              <Button variant="secondary" style={{ padding: '6px 10px', fontSize: '12px' }}>Go</Button>
+            </div>
+          </div>
+        </DashboardCard>
       </div>
+
     </div>
   )
 }
