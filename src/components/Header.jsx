@@ -3,15 +3,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { useToast } from "../contexts/ToastContext";
 
-import { useNotifications } from "../contexts/NotificationContext";
-
 export default function Header({ onMobileToggle }) {
     const { user } = useAuth();
     const { isDarkMode, toggleTheme } = useTheme();
-
-    const { notifications, markAllRead } = useNotifications();
-    const unreadCount = notifications.filter(n => !n.read).length;
-
 
     const { showToast } = useToast();
 
@@ -54,10 +48,7 @@ export default function Header({ onMobileToggle }) {
                         onClick={() => showToast(isDarkMode ? "Light mode enabled ☀️" : "Dark mode enabled 🌙",
       "info")}>
                             <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-                            {unreadCount > 0 &&(
-                                <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                            )
-                            }
+                            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full" />
                         </button>
                         <button className="p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg flex-shrink-0">
                         <Settings className="w-5 h-5" />
