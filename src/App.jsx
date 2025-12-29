@@ -1,48 +1,72 @@
-import { useState, useEffect } from 'react'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
-import Dashboard from './pages/Dashboard'
-import './App.css'
+import Sidebar from './components/Sidebar.jsx'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ProductProvider } from './contexts/ProductContext';
+import { CategoryProvider } from './contexts/CategoryContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(() => (typeof window !== 'undefined' ? window.innerWidth > 768 : true))
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Products from './pages/Product.jsx';
+import Categories from './pages/Categories.jsx';
+import Users from './pages/Users.jsx';
+import Layout from './components/Layout.jsx';
 
-  // adapt sidebar state on resize so desktop shows it and mobile hides it
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth <= 768) setSidebarOpen(false)
-      else setSidebarOpen(true)
-    }
-    window.addEventListener('resize', onResize)
-    // run once to sync
-    onResize()
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
+
+function AppContent(){
+  const {isAuthenticated } = useAuth();
 
   return (
-    <div style={{
-      display: 'flex',
-      height: '100vh',
-      backgroundColor: '#f9fafb'
-    }}>
-      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}>
-        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main style={{
-          flex: 1,
-          overflowY: 'auto',
-          backgroundColor: '#f9fafb'
-        }}>
-          <Dashboard />
-        </main>
-      </div>
-    </div>
-  )
+    <Routes>
+      {/* Public Routes */}
+      <Route 
+        path="/login" 
+        element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} 
+      />
+      <Route 
+        path="/register" 
+        element={!isAuthenticated ? <Register /> : <Navigate to="/dashboard" />} 
+      />
+      
+      {/* Protected Routes */}
+      <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<Navigate to="/dashboard" />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="products" element={<Products />} />
+        <Route path="categories" element={<Categories />} />
+        <Route 
+          path="users"
+          element={
+            <ProtectedRoute adminOnly>
+              <Users />
+            </ProtectedRoute>
+          } 
+        />
+      </Route>
+      
+      {/* Catch all route */}
+      <Route path="*" element={<Navigate to="/dashboard" />} />
+    </Routes>
+  );
+}
+
+function App() {
+
+  return (
+    <ThemeProvider>
+      <Router>
+        <AuthProvider>
+          <CategoryProvider>
+            <ProductProvider>
+              <AppContent />
+            </ProductProvider>
+          </CategoryProvider>
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
+  );
 }
 
 export default App

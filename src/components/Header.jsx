@@ -1,87 +1,71 @@
-import Button from './Button'
+import { Search, Bell, User, Settings, Moon, Sun, Menu } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { useTheme } from "../contexts/ThemeContext";
 
-export default function Header({ toggleSidebar }) {
-  return (
-    <header className="app-header" style={{
-      backgroundColor: '#ffffff',
-      borderBottom: '1px solid #e5e7eb',
-      padding: '16px 32px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      position: 'sticky',
-      top: 0,
-      zIndex: 10
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Button variant="ghost" onClick={toggleSidebar} style={{ padding: '8px', borderRadius: '8px' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-          <svg style={{ width: '24px', height: '24px', color: '#4b5563' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </Button>
-        <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#111827' }}>Dashboard</h1>
-          <p style={{ fontSize: '14px', color: '#6b7280' }}>Welcome Back, Admin</p>
-        </div>
-      </div>
+export default function Header({ onMobileToggle }) {
+    const { user } = useAuth();
+    const { isDarkMode, toggleTheme } = useTheme();
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-        {/* Theme Toggle */}
-        <Button variant="ghost" style={{ padding: '8px', borderRadius: '8px' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-          <svg style={{ width: '24px', height: '24px', color: '#4b5563' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 015.646 5.646 9.001 9.001 0 0020.354 15.354z" />
-          </svg>
-        </Button>
+    return (
+        <header className="w-full bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <div className="px-3 sm:px-6 py-3 sm:py-4">
+                {/* Top Row - Logo/Title and Mobile Menu */}
+                <div className="flex items-center justify-between mb-3 sm:mb-0">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <button
+                            onClick={onMobileToggle}
+                            className="p-2 lg:hidden rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0"
+                            aria-label="Open menu"
+                        >
+                            <Menu className="w-5 h-5" />
+                        </button>
 
-        {/* Settings */}
-        <Button variant="ghost" style={{ padding: '8px', borderRadius: '8px' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-          <svg style={{ width: '24px', height: '24px', color: '#4b5563' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </Button>
+                        <div className="min-w-0 flex-1">
+                            <h1 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white truncate">Dashboard</h1>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
+                                Welcome, {user?.name || user?.email || 'User'}
+                            </p>
+                        </div>
+                    </div>
 
-        {/* Notifications */}
-        <Button variant="ghost" style={{ position: 'relative', padding: '8px', borderRadius: '8px' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-          <svg style={{ width: '24px', height: '24px', color: '#4b5563' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-          <span style={{
-            position: 'absolute',
-            top: '4px',
-            right: '4px',
-            width: '10px',
-            height: '10px',
-            backgroundColor: '#ef4444',
-            borderRadius: '50%'
-          }}></span>
-        </Button>
+                    {/* Right Side Icons - Always Visible */}
+                    <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-1.5 sm:p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg"
+                        >
+                           {isDarkMode ? (
+                                <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+                            ) : (
+                                <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
+                            )}
+                        </button>
 
-        {/* User Profile */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          paddingLeft: '16px',
-          borderLeft: '1px solid #e5e7eb'
-        }}>
-          <p style={{ fontSize: '14px', color: '#4b5563' }}>Admin@ihuza.com</p>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            backgroundColor: '#2563eb',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: '14px'
-          }}>
-            A
-          </div>
-        </div>
-      </div>
-    </header>
-  )
+                        <button className="p-1.5 sm:p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg relative">
+                            <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full" />
+                        </button>
+                        <button className="p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg flex-shrink-0">
+                        <Settings className="w-5 h-5" />
+                    </button>
+
+                        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center flex-shrink-0 ml-1">
+                            <User className="w-4 h-4" />
+                        </div>
+                        <div className="hidden md:block text-right">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 truncate">{user?.email || '—'}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Role: {user?.role || 'guest'}</p>
+                    </div>
+                    </div>
+                </div>
+
+                {/* Bottom Row - Search and Controls (Responsive) */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 hidden sm:flex">
+                    
+
+                    
+                </div>
+            </div>
+        </header>
+    );
 }
