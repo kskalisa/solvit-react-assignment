@@ -51,7 +51,3 @@ npm run dev
 🔗 Deployed on Netlify:
 
 https://ihuzo-inventory.netlify.app/
-
-
-
-https://ihuzo-inventory.netlify.app/
