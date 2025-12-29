@@ -1,10 +1,19 @@
 import { Search, Bell, User, Settings, Moon, Sun, Menu } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
+import { useToast } from "../contexts/ToastContext";
+
+import { useNotifications } from "../contexts/NotificationContext";
 
 export default function Header({ onMobileToggle }) {
     const { user } = useAuth();
     const { isDarkMode, toggleTheme } = useTheme();
+
+    const { notifications, markAllRead } = useNotifications();
+    const unreadCount = notifications.filter(n => !n.read).length;
+
+
+    const { showToast } = useToast();
 
     return (
         <header className="w-full bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -41,9 +50,14 @@ export default function Header({ onMobileToggle }) {
                             )}
                         </button>
 
-                        <button className="p-1.5 sm:p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg relative">
+                        <button className="p-1.5 sm:p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg relative" 
+                        onClick={() => showToast(isDarkMode ? "Light mode enabled ☀️" : "Dark mode enabled 🌙",
+      "info")}>
                             <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-                            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full" />
+                            {unreadCount > 0 &&(
+                                <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                            )
+                            }
                         </button>
                         <button className="p-2 text-gray-400 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg flex-shrink-0">
                         <Settings className="w-5 h-5" />

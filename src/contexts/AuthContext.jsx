@@ -1,5 +1,4 @@
 import React, {createContext, useState, useContext, useEffect } from 'react';
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -47,6 +46,7 @@ export const AuthProvider = ({ children }) => {
         }
         setUser(userWithoutPassword);
         localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+
 
         return { success: true, user: userWithoutPassword };
     };

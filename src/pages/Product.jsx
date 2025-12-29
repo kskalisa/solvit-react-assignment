@@ -7,6 +7,8 @@ import {
 import { useProducts } from '../contexts/ProductContext';
 import { useCategories } from '../contexts/CategoryContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
+import { useNotifications } from '../contexts/NotificationContext';
 
 const Products = () => {
   const { products, deleteProduct, loading, addProduct, updateProduct, getProduct, getUserProducts } = useProducts();
@@ -19,6 +21,10 @@ const Products = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+
+  const { showToast } = useToast();
+  const { notifications: notificationContext } = useNotifications();
+
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
@@ -53,9 +59,11 @@ const Products = () => {
     if (!isAdmin && prod.ownerId !== user?.id) {
       // silently close modal or show message later
       setShowDeleteModal(null);
+      showToast('You do not have permission to delete this product', 'error');
       return;
     }
     deleteProduct(id);
+    showToast('Product deleted successfully', 'success');
     setShowDeleteModal(null);
   };
 
@@ -114,6 +122,7 @@ const Products = () => {
         return;
       }
       updateProduct(editingProduct.id, payload);
+      showToast('Product updated successfully', 'success');
     } else {
       // include owner information for new product
       const toAdd = {
@@ -123,6 +132,7 @@ const Products = () => {
         ownerName: user?.name,
       };
       addProduct(toAdd);
+      showToast('Product added successfully', 'success');
     }
 
     setShowAddModal(false);

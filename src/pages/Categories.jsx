@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useCategories } from '../contexts/CategoryContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 const Categories = () => {
   const { categories, deleteCategory, addCategory, updateCategory } = useCategories();
@@ -14,6 +15,9 @@ const Categories = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(null);
+
+  const { showToast } = useToast();
+
   const [formData, setFormData] = useState({
     name: '',
     description: ''
@@ -42,8 +46,10 @@ const Categories = () => {
     
     if (editingCategory) {
       updateCategory(editingCategory.id, payLoad);
+      showToast('Category updated successfully', 'success');
     } else {
       addCategory(payLoad);
+      showToast('Category added successfully', 'success');
     }
 
 
@@ -64,9 +70,10 @@ const Categories = () => {
   const handleDelete = (id) => {
     try {
       deleteCategory(id);
+      showToast('Category deleted successfully', 'success');
       setShowDeleteModal(null);
     } catch (error) {
-      alert(error.message);
+      alert(showToast(error.message, 'error'));
     }
   };
 

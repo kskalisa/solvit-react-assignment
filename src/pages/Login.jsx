@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link, useNavigate, useLocation } from 'react-router-dom';
 import {LogIn, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 const Login = () => {
     const [email, setEmail]  = useState('');
@@ -14,6 +15,8 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const { showToast } = useToast();
+
     const from = location.state?.from?.pathname || '/dashboard';
 
     const handleSubmit = async (e) => {
@@ -24,10 +27,12 @@ const Login = () => {
         const result = login(email, password);
 
         if (result.success){
+            showToast('Login successful', 'success');
             navigate(from, {replace: true})
         }
         else
         {
+            showToast(result.message, 'error');
             setError(result.message);
         }
 
